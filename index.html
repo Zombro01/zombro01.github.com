@@ -52,11 +52,11 @@
         }
         #console.active {
             display: block;
-            max-height: 200px; /* Adjust the height as needed */
+            max-height: 300px; /* Adjust the height as needed */
         }
         #consoleToggle {
             position: fixed;
-            bottom: 50px;
+            bottom: 100px;
             left: 10px;
             background-color: #333;
             border: 1px solid #00ff00;
@@ -71,6 +71,21 @@
             color: #00ff00;
             padding: 5px;
             margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #00ff00;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
         }
     </style>
 </head>
@@ -89,6 +104,16 @@
         <p>Console Output:</p>
         <div id="consoleContent"></div>
         <input type="text" id="consoleInput" placeholder="Type here and press Enter">
+        <table id="commandTable">
+            <thead>
+                <tr>
+                    <th>Word</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 
     <script>
@@ -142,10 +167,24 @@
             if (event.key === "Enter") {
                 var input = event.target.value;
                 var consoleContent = document.getElementById("consoleContent");
-                consoleContent.innerHTML += "<p>" + input + "</p>";
+                if (input.toLowerCase() === "exit") {
+                    toggleConsole();
+                } else {
+                    consoleContent.innerHTML += "<p>" + input + "</p>";
+                    addCommandToTable(input, "Performed action for " + input);
+                }
                 event.target.value = "";
             }
         });
+
+        function addCommandToTable(word, action) {
+            var table = document.getElementById("commandTable").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            cell1.innerHTML = word;
+            cell2.innerHTML = action;
+        }
     </script>
 </body>
 </html>
