@@ -7,17 +7,16 @@
             font-family: 'Courier New', Courier, monospace;
             background-color: #000;
             color: #00ff00;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
         .container {
             border: 2px solid #00ff00;
             padding: 20px;
             width: 600px;
             text-align: center;
+            position: absolute;
+            cursor: move;
         }
         h1 {
             color: #00ff00;
@@ -39,7 +38,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="draggable">
         <h1>INTRO PAGE</h1>
         <p>Hi, I’m @Zombro01. I’m interested in AI projects and currently learning various technologies.</p>
         <p>Feel free to <a href="https://github.com/Zombro01" class="project-link">check out my GitHub profile.</a></p>
@@ -47,5 +46,43 @@
         <a href="https://github.com/Zombro01/website" class="project-link">Website: Source code for my personal website.</a>
         <a href="https://github.com/Zombro01/SD-discord-bot" class="project-link">SD Discord Bot: A Discord bot for stable diffusion with various commands.</a>
     </div>
+    <script>
+        // Make the DIV element draggable:
+        dragElement(document.getElementById("draggable"));
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            elmnt.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                // stop moving when mouse button is released:
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
 </body>
 </html>
