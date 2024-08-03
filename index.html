@@ -46,15 +46,22 @@
             display: none;
             padding: 10px;
             box-sizing: border-box;
+            transition: max-height 0.5s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        #console.active {
+            display: block;
+            max-height: 200px; /* Adjust the height as needed */
         }
         #consoleToggle {
             position: fixed;
-            bottom: 10px;
+            bottom: 210px;
             left: 10px;
             background-color: #333;
             border: 1px solid #00ff00;
             color: #00ff00;
-            padding: 5px;
+            padding: 3px;
             cursor: pointer;
         }
     </style>
@@ -69,11 +76,11 @@
         <a href="https://github.com/Zombro01/SD-discord-bot" class="project-link">SD Discord Bot: A Discord bot for stable diffusion with various commands.</a>
     </div>
 
+    <button id="consoleToggle" onclick="toggleConsole()">Toggle Console</button>
     <div id="console">
         <p>Console Output:</p>
         <div id="consoleContent"></div>
     </div>
-    <button id="consoleToggle" onclick="toggleConsole()">Toggle Console</button>
 
     <script>
         // Make the DIV element draggable:
@@ -115,10 +122,10 @@
 
         function toggleConsole() {
             var consoleDiv = document.getElementById("console");
-            if (consoleDiv.style.display === "none") {
-                consoleDiv.style.display = "block";
+            if (consoleDiv.classList.contains("active")) {
+                consoleDiv.classList.remove("active");
             } else {
-                consoleDiv.style.display = "none";
+                consoleDiv.classList.add("active");
             }
         }
     </script>
